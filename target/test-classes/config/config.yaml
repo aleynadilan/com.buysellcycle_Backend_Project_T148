@@ -1,0 +1,16 @@
+api:
+  base_url: "https://qa.buysellcycle.com"
+  adminEmail : "admin@buysellcycle.com"
+  adminPassword : "123123123"
+  customerEmail : "customer@gmail.com"
+  customerPassword : "123123123"
+  unauthorizedExceptionMessage: "status code: 401, reason phrase: Unauthorized"
+  notFoundExceptionMessage: "status code: 404, reason phrase: Not Found"
+  invalidToken: "invalid"
+
+database:
+  host: "localhost"
+  port: 3306
+  URL:
+  USERNAME:
+  PASSWORD:

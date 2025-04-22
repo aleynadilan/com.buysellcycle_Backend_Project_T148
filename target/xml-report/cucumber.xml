@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite errors="0" failures="0" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="1" time="8.48">
+    <testcase classname="As an administrator, I should be able to access the detailed information of the holiday with the specified id number via the API connection." name="When a GET request with invalid authorization and a holiday ID is sent to the /api/holidayDetails endpoint," time="7.857">
+        <system-out><![CDATA[* The api user constructs the base url with the "invalid" token.............passed
+* The api user sets "api/holidayDetails" path parameters....................passed
+* The api user prepares a GET request body to send to the api holidayDetails endpoint containing the information 3..passed
+* The api user sends a GET request body, saves the returned response, and verifies that the status code is '401' with the reason phrase Unauthorized..passed
+]]></system-out>
+    </testcase>
+</testsuite>
