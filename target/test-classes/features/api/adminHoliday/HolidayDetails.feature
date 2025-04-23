@@ -55,7 +55,7 @@ Feature: As an administrator, I should be able to access the detailed informatio
       | id   |
       | 8754 |
 
-  @API
+
   Scenario Outline: When a GET request with invalid authorization and a holiday ID is sent to the /api/holidayDetails endpoint,
   it should be verified that the status code is 401 and the response message is 'Unauthenticated.'
 

@@ -6,6 +6,8 @@ api:
   customerPassword : "123123123"
   unauthorizedExceptionMessage: "status code: 401, reason phrase: Unauthorized"
   notFoundExceptionMessage: "status code: 404, reason phrase: Not Found"
+  badRequestExceptionMessage: "status code: 400, reason phrase: Bad Request"
+  unprocessableEntityExceptionMessage: "status code: 422, reason phrase: Unprocessable Entity"
   invalidToken: "invalid"
 
 database:

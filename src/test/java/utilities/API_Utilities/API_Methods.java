@@ -4,6 +4,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import static hooks.HooksAPI.spec;
 import static io.restassured.RestAssured.given;
@@ -145,4 +146,17 @@ public class API_Methods {
                 .body(path, equalTo(value));
     }
 
+    static Random random = new Random();
+    public static String generateRandomName() {
+        String[] holidayNames = {
+                "Freedom Day", "Unity Festival", "Peace Celebration",
+                "Spring Blossom", "Harvest Day", "Moonlight Festival"
+        };
+        return holidayNames[random.nextInt(holidayNames.length)];
+    }
+
+    public static String generateRandomYear() {
+        int year = 2000 + random.nextInt(31); // 2000-2030 arası
+        return String.valueOf(year); // int → String dönüşümü
+    }
 }

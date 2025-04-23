@@ -9,11 +9,15 @@ import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Assert;
+import pojos.HolidayUpdatePojo;
 import utilities.API_Utilities.API_Methods;
+import utilities.API_Utilities.TestData;
+
+import java.util.HashMap;
 
 import static hooks.HooksAPI.spec;
 import static io.restassured.RestAssured.given;
-import static utilities.API_Utilities.API_Methods.fullPath;
+import static utilities.API_Utilities.API_Methods.*;
 
 public class API_Stepdefinitions {
 
@@ -22,6 +26,9 @@ public class API_Stepdefinitions {
     String exceptionMesaj;
     ConfigLoader configLoader = new ConfigLoader();
     JSONObject jsonObject;
+    TestData testData = new TestData();
+    HashMap<String, Object> requestBody;
+    HolidayUpdatePojo holidayUpdatePojoRequest;
 
     @Given("The api user constructs the base url with the {string} token.")
     public void the_api_user_constructs_the_base_url_with_the_token(String userType) {
@@ -142,4 +149,158 @@ public class API_Stepdefinitions {
         System.out.println("exceptionMesaj : " + exceptionMesaj);
         Assert.assertEquals(configLoader.getApiConfig("unauthorizedExceptionMessage"), exceptionMesaj);
     }
+
+    @Given("The api user prepares a post request body to send to the api holidayAdd endpoint.")
+    public void the_api_user_prepares_a_post_request_body_to_send_to_the_api_holiday_add_endpoint() {
+        requestBody = testData.holidayAdd();
+        System.out.println("Post Body : " + requestBody);
+    }
+
+    @Given("The api user sends a POST request and saves the returned response.")
+    public void the_api_user_sends_a_post_request_and_saves_the_returned_response() {
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .when()
+                .body(requestBody)
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @Given("The api user prepares a post request body containing the holiday data registered in the system to send to the api holidayAdd endpoint.")
+    public void the_api_user_prepares_a_post_request_body_containing_the_holiday_data_registered_in_the_system_to_send_to_the_api_holiday_add_endpoint() {
+        requestBody = testData.holidayAdd();
+        System.out.println("Post Body : " + requestBody);
+    }
+
+    @Given("The api user prepares a patch request body to send to the api holidayUpdate endpoint.")
+    public void the_api_user_prepares_a_patch_request_body_to_send_to_the_api_holiday_update_endpoint() {
+        holidayUpdatePojoRequest = new HolidayUpdatePojo(generateRandomYear(), "Noell", "2024-01-01");
+        System.out.println("Patch Body : " + holidayUpdatePojoRequest);
+    }
+
+    @Given("The api user sends a PATCH request and saves the returned response.")
+    public void the_api_user_sends_a_patch_request_and_saves_the_returned_response() {
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .when()
+                .body(holidayUpdatePojoRequest)
+                .patch(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @Given("The api user verifies that the updated id information in the response body is the same as the id path parameter written in the endpoint.")
+    public void the_api_user_verifies_that_the_updated_id_information_in_the_response_body_is_the_same_as_the_id_path_parameter_written_in_the_endpoint() {
+        jsonPath = response.jsonPath();
+        int responseUpdatedId = jsonPath.getInt("updated_Id"); // 167
+        Assert.assertEquals(responseUpdatedId, 167);
+    }
+
+    @Given("The api user prepares a patch request body that matches previous records to send to the api holidayUpdate endpoint.")
+    public void the_api_user_prepares_a_patch_request_body_that_matches_previous_records_to_send_to_the_api_holiday_update_endpoint() {
+        holidayUpdatePojoRequest = new HolidayUpdatePojo("2022", "Noel", "2022-01-01");
+        System.out.println("Patch Body : " + holidayUpdatePojoRequest);
+    }
+
+    @Given("The api user sends a PATCH request, saves the returned response, and verifies that the status code is {string} with the reason phrase Bad Request.")
+    public void the_api_user_sends_a_patch_request_saves_the_returned_response_and_verifies_that_the_status_code_is_with_the_reason_phrase_bad_request(String string) {
+        try {
+            response = given()
+                    .spec(spec)
+                    .contentType(ContentType.JSON)
+                    .when()
+                    .body(holidayUpdatePojoRequest)
+                    .patch(fullPath);
+        } catch (Exception e) {
+            exceptionMesaj = e.getMessage();
+        }
+        System.out.println("exceptionMesaj : " + exceptionMesaj);
+        Assert.assertEquals(configLoader.getApiConfig("badRequestExceptionMessage"), exceptionMesaj);
+    }
+
+    @Given("The api user sends a PATCH request, saves the returned response, and verifies that the status code is {string} with the reason phrase Not Found.")
+    public void the_api_user_sends_a_patch_request_saves_the_returned_response_and_verifies_that_the_status_code_is_with_the_reason_phrase_not_found(String string) {
+        try {
+            response = given()
+                    .spec(spec)
+                    .contentType(ContentType.JSON)
+                    .when()
+                    .body(holidayUpdatePojoRequest)
+                    .patch(fullPath);
+        } catch (Exception e) {
+            exceptionMesaj = e.getMessage();
+        }
+        System.out.println("exceptionMesaj : " + exceptionMesaj);
+        Assert.assertEquals(configLoader.getApiConfig("notFoundExceptionMessage"), exceptionMesaj);
+    }
+
+    @Given("The api user sends a PATCH request, saves the returned response, and verifies that the status code is {string} with the reason phrase Unauthorized.")
+    public void the_api_user_sends_a_patch_request_saves_the_returned_response_and_verifies_that_the_status_code_is_with_the_reason_phrase_unauthorized(String string) {
+        try {
+            response = given()
+                    .spec(spec)
+                    .contentType(ContentType.JSON)
+                    .when()
+                    .body(holidayUpdatePojoRequest)
+                    .patch(fullPath);
+        } catch (Exception e) {
+            exceptionMesaj = e.getMessage();
+        }
+        System.out.println("exceptionMesaj : " + exceptionMesaj);
+        Assert.assertEquals(configLoader.getApiConfig("unauthorizedExceptionMessage"), exceptionMesaj);
+    }
+
+
+    @Given("The api user name verifies that it is {string}")
+    public void the_api_user_name_verifies_that_it_is(String name) {
+        response.then()
+                .assertThat()
+                .body("holidayDetails[0].name", Matchers.equalTo(name));
+    }
+
+    @Given("The api user prepares a Delete request body to send to the api holidayDelete endpoint.")
+    public void the_api_user_prepares_a_delete_request_body_to_send_to_the_api_holiday_delete_endpoint() {
+        requestBody = new HashMap<>();
+        requestBody.put("id", 169);
+        System.out.println("Delete Body : " + requestBody);
+    }
+
+    @Given("The api user sends a DELETE request and saves the returned response.")
+    public void the_api_user_sends_a_delete_request_and_saves_the_returned_response() {
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .when()
+                .body(requestBody)
+                .delete(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @Given("The api user verifies that the Deleted id information in the response body is the same as the id information in the request body.")
+    public void the_api_user_verifies_that_the_deleted_id_information_in_the_response_body_is_the_same_as_the_id_information_in_the_request_body() {
+        jsonPath = response.jsonPath();
+        int responseDeletedId = jsonPath.getInt("Deleted_Id");
+        Assert.assertEquals(responseDeletedId, requestBody.get("id"));
+    }
+
+    @Given("The api user sends a DELETE request, saves the returned response, and verifies that the status code is {string} with the reason phrase Unauthorized.")
+    public void the_api_user_sends_a_delete_request_saves_the_returned_response_and_verifies_that_the_status_code_is_with_the_reason_phrase_unauthorized(String string) {
+        try {
+            response = given()
+                    .spec(spec)
+                    .contentType(ContentType.JSON)
+                    .when()
+                    .body(requestBody)
+                    .delete(fullPath);
+        } catch (Exception e) {
+            exceptionMesaj = e.getMessage();
+        }
+        System.out.println("exceptionMesaj : " + exceptionMesaj);
+        Assert.assertEquals(configLoader.getApiConfig("unauthorizedExceptionMessage"), exceptionMesaj);
+    }
+
 }

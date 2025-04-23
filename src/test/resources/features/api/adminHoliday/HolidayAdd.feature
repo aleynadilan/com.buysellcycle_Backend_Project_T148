@@ -25,8 +25,8 @@ Feature: As an administrator, I want to add a new holiday record via the API con
     # Api kullanicisi "admin" token ile base urli olusturur
     * The api user sets "api/holidayAdd" path parameters.
     # Api kullanicisi "api/holidayAdd" path parametrelerini olusturur
-    * The api user prepares a post request body to send to the api holidayAdd endpoint.
-    # Api kullanicisi api holidayAdd endpointine gondermek icin bir post request body hazirlar
+    * The api user prepares a post request body containing the holiday data registered in the system to send to the api holidayAdd endpoint.
+    # Api kullanicisi api holidayAdd endpointine gondermek icin sisteme kayitli holiday verilerini iceren bir post request body hazirlar
     * The api user sends a POST request and saves the returned response.
     # Api kullanicisi POST request gonderir ve donen responsei kaydeder
     * The api user verifies that the status code is 400.
@@ -70,5 +70,5 @@ Feature: As an administrator, I want to add a new holiday record via the API con
 
     Examples:
       | id  |
-      | 164 |
+      | 166 |
 
